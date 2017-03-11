@@ -5,7 +5,7 @@ O R é um programa que pode gerar gráficos muitos legais, com altíssimos graus
 
 Porém, é comum um sentimento de frustração quando salvamos os gráficos diretamente do R ou RStudio via menus embutidos. Nesse post mostrarei dicas de como resolver alguns desses problemas. Vamos ver como salvar diretamente os gráficos do R em PDF usando linhas de comando para ter maior controle do processo e não perder nada de qualidade. Isso também garantirá que um gráfico gerado no R ou no RStudio, ou em computadores com telas de tamanhos diferentes não afetem o resultado gráfico.
 
-**Vantagens:** controle sobre a produção gráfica e geração de gráficos com altíssima qualidade.
+**Vantagens:** controle sobre a produção gráfica e geração de gráficos com altíssima qualidade.  
 **Desvantagens:** Mais algumas linhas de comando e argumentos para configurar.
 
 
