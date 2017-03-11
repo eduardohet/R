@@ -1,0 +1,222 @@
+<h1>Criando figuras de alta qualidade</h1>
+
+<h2>Introdução</h2>
+
+<p>O R é um programa que pode gerar gráficos muitos legais, com altíssimos graus de refinamentos e ajustes possíveis. Por isso, o cógido para um único gráfico pode conter diversas linhas de comando e levar um bom tempo pra ser finalizado.</p>
+
+<p>Porém, é comum um sentimento de frustração quando salvamos os gráficos diretamente do R ou RStudio via menus embutidos. Nesse post mostrarei dicas de como resolver alguns desses problemas. Vamos ver como salvar diretamente os gráficos do R em PDF usando linhas de comando para ter maior controle do processo e não perder nada de qualidade. Isso também garantirá que um gráfico gerado no R ou no RStudio, ou em computadores com telas de tamanhos diferentes não afetem o resultado gráfico.</p>
+
+<p><strong>Vantagens:</strong> controle sobre a produção gráfica e geração de gráficos com altíssima qualidade.
+<strong>Desvantagens:</strong> Mais algumas linhas de comando e argumentos para configurar.</p>
+
+<h2>Um gráfico de testes</h2>
+
+<p>Se estiver a postos no seu escritório ou mesmo no sofá com seu computador à frente e Netflix na visão periférica, você já está aptop a começar. No primeiro passo, vamos gerar alguns dados aleatórios e testar a saída gráfica.</p>
+
+<pre><code class="r">x &lt;- rnorm(100)  # 100 valores de uma distribuição normal
+y &lt;- runif(100)  # 100 valores de uma distribuição uniforme
+
+plot(y ~ x, xlab=&quot;Valores de uma distribuicao normal&quot;, ylab=&quot;Valores de uma distribuicao uniforme&quot;)
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-1"/></p>
+
+<p>Se você estiver utilizando o Windows, com o gráfico gerado acima aberto e a janela gráfica ativa, consulte o menu <em>Arquivo &gt; Salvar como&hellip;</em> no R (confira as opções do RStudio no menu de gráficos).</p>
+
+<p>As opções disponíveis parecem promissoras: Metafile, Postscript, PDF, PNG, BMP, TIFF e JPEG (+ SVG no RStudio). Eu descartaria diretamente BMP. Postscript e Metafile são opções interessantes para impressão, mas mais difíceis de utilizar. Por exemplo, arquivos desses dois tipos normalmente não podem ser abertos diretamente simplesmente para dar um conferida no resultado, limitando seu uso.</p>
+
+<p>Restam PDF, PNG, TIFF e JPEG. Recomendo que você faça um teste e salve o gráfico em cada um desses formatos. Confira um por um os arquivos resultantes e decida qual parece ter a qualidade esperada. Dê zoom nas figuras durante a visualização dos arquivos para auxiliar na escolha. Eu ficaria com o PDF em função desse teste.</p>
+
+<p>Então, por hoje é só? Basta saber que devemos salvar nossos gráficos em PDF para evitar perda de qualidade? Não é tão simples&hellip; Precisamos saber de mais algums detalhes para não jogar fora o esforço gasto com todas aquelas linhas de comando. Para isso, vamos aprender <em>mais algumas</em> linhas de comando. Não se assuste, são duas na verdade (e mais algumas conferidas antes de prosseguir).</p>
+
+<h2>Conferindo o diretório de trabalho</h2>
+
+<p>Para salvar figuras de qualidade em PDF, precisamos usar linhas de comando e saber em que diretório estamos trabalhando. para saber em que diretório de trabalho estamos trabalhando, podemos usar o comando <code>getwd()</code>.</p>
+
+<p>Se a pasta apresentada faz sentido e é onde você quer salvar seus gráficos, pode pular para a próxima etapa. Se quiser modificar o local de salvamento, continue com o comando <code>setwd(choose.dir())</code> para escolher uma pasta. Feito isso, use novamente o comando <code>getwd()</code> para verificar se tudo está de acordo.</p>
+
+<h2>Salvando gráficos com linhas de comando</h2>
+
+<p>Os passos anteriores servem para facilitar o salvamento dos gráficos com linhas de comando, pois agora podemos salvar novos gráficos apenas com um nome de arquivo, sem especificar a pasta. </p>
+
+<p>Como isso é feito? São necessários pelo menos três comandos: um para definir o nome de arquivo e configurações adicionais de salvamento, outro para gerar o gráfico (pode trocar por aquela lista de comandos que vocês levou uma semana para acertar), e um comando para fechar o arquivo. Vamos a um exemplo com o gráfico gerado anteriormente.</p>
+
+<pre><code># 1
+pdf(&quot;grafico entre x e y.pdf&quot;)
+# 2
+plot(y ~ x, xlab=&quot;Valores de uma distribuicao normal&quot;, ylab=&quot;Valores de uma distribuicao uniforme&quot;)
+# 3
+dev.off()
+</code></pre>
+
+<p>O ideal é receber apenas uma mensagem como <code>null device  1</code>. Isso quer dizer que o arquivo foi salvo no arquivo sem problemas. Se foi esse o caso, vá até a pasta e confira o PDF gerado (arquivo chamado &ldquo;grafico entre x e y.pdf&rdquo;, como especificado no comando # 1). O arqvuio deve conter o gráfico desejado.</p>
+
+<p>Causas comuns de erros nessa sequência de comandos são ter outras janelas de gráfico abertas (feche todas as janelas de gráfico ou, no RStudio, adicione um comando <code>dev.off()</code> antes do comando # 1, que irá fechar todos os gráficos antes de prosseguir) ou tentar salvar no mesmo arquivo com ele aberto no seu visualizador de PDF (comum quando se gera um gráfico, abre o arquivo para verificar, volta ao R para modificar e tenta salvar novamente com o AdobeReader ou Foxit com o arquivo aberto).</p>
+
+<h2>Indo um pouco além</h2>
+
+<p>Podemos personalizar um pouco mais nossos gráficos para garantir o resultado desejado. Por exemplo, digamos que uma revista pede que os gráficos tenham até 11 cm de largura. Porque resolver isso depois se podemos salvar nesse tamanho?</p>
+
+<p>Como? Basta configurar a largura no comando <code>pdf()</code>. Por exemplo, no código abaixo, iremos indicar a largura máxima de 11 cm via opção <em>width</em>. </p>
+
+<pre><code>pdf(&quot;grafico entre x e y.pdf&quot;, width=4.33071)
+plot(y ~ x, xlab=&quot;Valores de uma distribuicao normal&quot;, ylab=&quot;Valores de uma distribuicao uniforme&quot;)
+dev.off()
+</code></pre>
+
+<p>Veja que a função <code>pdf</code> aceita apenas valores de largura (<em>width</em>) ou altura (<em>height</em>) em polegadas. Para isso, foi necessário converter 11 cm para polegadas (4,33071) e informar esse valor no comando. Se você conferir o resultado, verá que a altura ficou maior que a largura, pois o padrão do R é altura e largura igual a 7 polegadas. Como não informamos a altura, o padrão de 7 polegadas foi utilizado. Como nosso gráfico deve ficar bem melhor quadrado, basta informar as duas medidas iguais.</p>
+
+<pre><code>pdf(&quot;grafico entre x e y.pdf&quot;, width=4.33071, height=4.33071)
+plot(y ~ x, xlab=&quot;Valores de uma distribuicao normal&quot;, ylab=&quot;Valores de uma distribuicao uniforme&quot;)
+dev.off()
+</code></pre>
+
+<h2>Facilitando (ou complicando) um pouco mais</h2>
+
+<p>Digamos que você precisa criar uma figura com quatro gráficos, em um layout de duas linhas e duas colunas. Isso pode ser feito com a função <code>par(mfrow=c(2, 2))</code>. Vamos ver como ficaria isso na tela com a seguinte sequência de comandos (para salvar direto em PDF, remova o símbolo &ldquo;#&rdquo; antes da primeira e da última linha de comando):</p>
+
+<pre><code class="r"># pdf(&quot;minha.figura.4.graficos.pdf&quot;)  # usar para salvar diretamente
+par(mfrow=c(2, 2))
+# Comandos para o gráfico 1
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+# Comandos para o gráfico 2
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+# Comandos para o gráfico 3
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+# Comandos para o gráfico 4
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+# dev.off()  # usar para salvar diretamente
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-3"/></p>
+
+<p>Nada mal. Mas alguns pontos podem ser melhorados. Por exemplo, dimunuir o espaço entre gráficos para utilizar melhor o espaço (adicionando o argumento <code>mar=c(5, 4, 2, 1)</code> na função <code>par(...)</code>), que irá diminuir especialmente o espaço acima de cada gráfico (terceiro valor numérico). Outra melhoria, pode ser adicionar o comando <code>mtext()</code> após cada gráfico para configurar uma letra indicativa em cada gráfico, que pode ser associada na legenda da figura para explicar o que é cada gráfico. Vamos ao código:</p>
+
+<pre><code class="r"># pdf(&quot;minha.figura.4.graficos.pdf&quot;)  # usar para salvar diretamente
+par(mfrow=c(2, 2), mar=c(5, 4, 2, 1))
+# Comandos para o gráfico 1
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;A) Painel 1&quot;, side=3, line=0.5, adj=0, font=2)
+# Comandos para o gráfico 2
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;B) Painel 2&quot;, side=3, line=0.5, adj=0, font=2)
+# Comandos para o gráfico 3
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;C) Painel 3&quot;, side=3, line=0.5, adj=0, font=2)
+# Comandos para o gráfico 4
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;D) Painel 4&quot;, side=3, line=0.5, adj=0, font=2)
+# dev.off()  # usar para salvar diretamente
+</code></pre>
+
+<p><img src="data:image/png;base64,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" alt="plot of chunk unnamed-chunk-5"/></p>
+
+<p>Teste a saída em PDF. Se algum texto ficar muito pequeno, você pode configurar tamanhos maiores aumentando o valor padrão do argumento <code>cex</code> da função <code>par()</code>. O valor padrão é 1. Valores maiores que 1 aumentam o tamanho de partes do seu texto. Valores menores que 1, diminuem. Teste a criação do PDF abaixo e veja o resultado.</p>
+
+<pre><code class="r">pdf(&quot;minha.figura.4.graficos.pdf&quot;, width=4.33071, height=4.33071)
+par(mfrow=c(2, 2), mar=c(5, 4, 2, 1))
+# Comandos para o gráfico 1
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;A) Gráfico 1&quot;, side=3, line=0.5, adj=0, font=2)
+# Comandos para o gráfico 2
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;B) Gráfico 2&quot;, side=3, line=0.5, adj=0, font=2)
+# Comandos para o gráfico 3
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;C) Gráfico 3&quot;, side=3, line=0.5, adj=0, font=2)
+# Comandos para o gráfico 4
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;D) Gráfico 4&quot;, side=3, line=0.5, adj=0, font=2)
+dev.off()
+</code></pre>
+
+<p>Os símbolos e fontes ficam meio grandes e você deve ter ficado com vontade de desistir ou editar o gráfico no Paintbrush. Mas não, não faça isso depois de tanto esforço. Basta algumas configurações na função <code>par()</code> para ajustar os tamanhos utilizando <code>cex=0.7</code> (símbolos e alguns textos), <code>cex.lab=0.8</code> (para o tamanho das legendas dos eixos), e <code>cex.axis=0.7</code> (para os números nos eixos). Por fim, adicione o argumento <code>cex=0.7</code> em cada uso da função <code>mtext()</code>. Segue a versão atualizada do código com as alterações no comando <code>par()</code>.</p>
+
+<pre><code class="r">pdf(&quot;minha.figura.4.graficos.pdf&quot;, width=4.33071, height=4.33071)
+par(mfrow=c(2, 2), mar=c(5, 4, 2, 1), cex=0.7, cex.lab=0.8, cex.axis=0.6)
+# Comandos para o gráfico 1
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;A) Gráfico 1&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 2
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;B) Gráfico 2&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 3
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;C) Gráfico 3&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 4
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;D) Gráfico 4&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+dev.off()
+</code></pre>
+
+<p>Por fim, se você for meio perfeccionista, pode achar que vale a pena diminuir o espaço em branco entre os valores dos eixos e as legendas dos eixos (eu faria isso). Novamente, temos que ajustar isso com um novo argumento na função <code>par</code>: <code>mgp=c(1.5, 0.5, 0)</code>. Segue o código atualizado:</p>
+
+<pre><code class="r">pdf(&quot;minha.figura.4.graficos.pdf&quot;, width=4.33071, height=4.33071)
+par(mfrow=c(2, 2), mar=c(5, 4, 2, 1), cex=0.7, cex.lab=0.8, cex.axis=0.6, mgp=c(1.5, 0.5, 0))
+# Comandos para o gráfico 1
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;A) Gráfico 1&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 2
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;B) Gráfico 2&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 3
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;C) Gráfico 3&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 4
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;D) Gráfico 4&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+dev.off()
+</code></pre>
+
+<p>Veja o resultado. Até ganhamos espaço em branco entre os gráficos, o que podemos aproveitar para dar mais ênfase aos dados em si. Vamos alterar novamente os valores do argumento <code>mar</code> da função <code>par</code>. Vamos utilizar valores das margens inferiores e esquerdas menores que valores anteriores (<code>mar=c(5, 4, 2, 1)</code>): <code>mar=c(3.5, 3.5, 2, 1)</code>:</p>
+
+<pre><code class="r">pdf(&quot;minha.figura.4.graficos.pdf&quot;, width=4.33071, height=4.33071)
+par(mfrow=c(2, 2), mar=c(3.5, 3.5, 2, 1), cex=0.7, cex.lab=0.8, cex.axis=0.6, mgp=c(1.5, 0.5, 0))
+# Comandos para o gráfico 1
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;A) Gráfico 1&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 2
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;B) Gráfico 2&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 3
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;C) Gráfico 3&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 4
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;)
+mtext(&quot;D) Gráfico 4&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+dev.off()
+</code></pre>
+
+<h2>Finalizando fora do R</h2>
+
+<p>Para finalizar, nem todas as revistas aceitarão sua figura em PDF. O Word também não permitirá que você importe o PDF no seu arquivo. Mas mesmo assim, garanto que o esforço para gerar um PDF com a sua figura prontinha valeu a pena. Agora basta escolher um programa que manipule imagens para converter para o tipo de arquivo desejado. Eu já usei Corel Draw e Photoshop. Ambos abrem PDFs e o Corel Draw permite inclusive a edição dos mínimos detalhes. Mas como a melhor opção é um <em>software</em> livre, recomendo o GIMP (<a href="https://www.gimp.org/">https://www.gimp.org/</a>). Vou comentar como converter um PDF em JPEG com esse programa.</p>
+
+<p>Abra o GIMP e vá em <em>Arquivo &gt; Abrir&hellip;</em> Selecione algum PDF (criado com o R ou outro qualquer). Como PDFs podem conter várias páginas, o GIMP abre uma tela onde temos que escolher a página que queremos abrir. No caso de um gráfico gerado no R com comandos semelhantes aos utilizados aqui, só uma página foi gerada e não é necessário se preocupar muito com isso. É importante ajustar as outras opções, especialmente a resolução. Faça testes para ver a mudança de qualidade. Use, por exemplo, os valores 72 (resolução de celular ou máquina fotográfica), 150, e 300 dpi. Como começamos com um arquivo PDF, a diferença pode ser pequena, pois o PDF preservou o máximo da qualidade de nossas figuras. Mas ter essa opção pode ser bem importante para balancear a qualidade e o tamanho em disco de um arquivo JPEG. Para prosseguir, com o exemplo, <strong>insira o valor 200 para a resolução</strong> (= 200 dpi) e clique em <em>Importar</em>. Por algum motivo, os círculos do gráfico em PDF são trocados por um retângulo. Espero que isso seja resolvido pelos desenvolvedores do GIMP. Por enquanto, uma solução é trocar o tipo de símbolo ao gerar nossos gráficos usando o argumento <code>pch=0</code> (símbolo é um quadrado). Evite usar todos os símbolos circulares (pch=1, 16, 19, 20, e 21). No máximo, se muito necessário, use <code>pch=&quot;o&quot;</code> (&ldquo;o&rdquo; minúsculo). Segue um script final atualizado para resolver o problema que surge no GIMP. </p>
+
+<pre><code class="r">pdf(&quot;minha.figura.4.graficos.pdf&quot;, width=4.33071, height=4.33071)
+par(mfrow=c(2, 2), mar=c(3.5, 3.5, 2, 1), cex=0.7, cex.lab=0.8, cex.axis=0.6, mgp=c(1.5, 0.5, 0))
+# Comandos para o gráfico 1
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;, pch=0)
+mtext(&quot;A) Gráfico 1&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 2
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;, pch=2)
+mtext(&quot;B) Gráfico 2&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 3
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;, pch=3)
+mtext(&quot;C) Gráfico 3&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+# Comandos para o gráfico 4
+plot(y ~ x, xlab=&quot;Distribuicao normal&quot;, ylab=&quot;Distribuicao uniforme&quot;, pch=&quot;o&quot;)
+mtext(&quot;D) Gráfico 4&quot;, side=3, line=0.5, adj=0, font=2, cex=0.7)
+dev.off()
+</code></pre>
+
+<p>Com o gráfico importado no GIMP, basta ir em <em>Arquivo &gt; Exportar como &hellip;</em> e escolher um dos diversos formatos de imagens. Vamos escolher JPEG para o exemplo. Escolha um nome e garanta que ele contém &ldquo;.jpg&rdquo; como extensão. Aparecerá uma tela com configurações adicionais. Apenas garanta que a qualidade está como 100% e clique em <em>Exportar</em>. </p>
+
+<p>Compare abaixo o resultado como gerado em JPEG e 100% de qualidade pelo R e via salvamento em PDF e importação/exportação em JPEG pelo GIMP.</p>
+
+<h2>Conclusão</h2>
+
+<p>O caminho de salvar as figuras em PDF pelo R é meio tortuoso, mas não envolve tantas novidades. Com a função <code>pdf</code> e a função <code>dev.off</code> já podemos salvar nossas imagens direto em PDF sem perda de qualidade. Com um arquivo em PDF, podemos usar programas como o GIMP para exportar em alta qualidade para diversos formatos.</p>
+
+<h4><strong>Dúvidas?</strong> escreva para mim ou deixe um comentário.</h4>
+
