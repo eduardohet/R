@@ -242,10 +242,10 @@ Com o gráfico importado no GIMP, basta ir em *Arquivo > Exportar como ...* e es
 Compare abaixo o resultado como gerado em JPEG e 100% de qualidade pelo R e via salvamento em PDF e importação/exportação em JPEG pelo GIMP.
 
 ### R
-![Figura 4](Figures/graficos-fig4.png)
+![Figura 4](Figures/graficos-fig4.jpg)
 
 ### R + GIMP
-![Figura 5](Figures/graficos-fig5.png)
+![Figura 5](Figures/graficos-fig5.jpg)
 
 
 ## Conclusão
