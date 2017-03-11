@@ -21,7 +21,7 @@ plot(y ~ x, xlab="Valores de uma distribuicao normal",
   ylab="Valores de uma distribuicao uniforme")
 ```
 
-![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)
+![Figura 1](Figures/graficos-fig1.png)
 
 Se você estiver utilizando o Windows, com o gráfico gerado acima aberto e a janela gráfica ativa, consulte o menu *Arquivo > Salvar como...* no R (confira as opções do RStudio no menu de gráficos).
 
