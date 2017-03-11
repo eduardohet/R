@@ -17,7 +17,8 @@ Se estiver a postos no seu escritório ou mesmo no sofá com seu computador à f
 x <- rnorm(100)  # 100 valores de uma distribuição normal
 y <- runif(100)  # 100 valores de uma distribuição uniforme
 
-plot(y ~ x, xlab="Valores de uma distribuicao normal", ylab="Valores de uma distribuicao uniforme")
+plot(y ~ x, xlab="Valores de uma distribuicao normal", 
+  ylab="Valores de uma distribuicao uniforme")
 ```
 
 ![plot of chunk unnamed-chunk-1](figure/unnamed-chunk-1-1.png)
@@ -46,7 +47,8 @@ Como isso é feito? São necessários pelo menos três comandos: um para definir
 # 1
 pdf("grafico entre x e y.pdf")
 # 2
-plot(y ~ x, xlab="Valores de uma distribuicao normal", ylab="Valores de uma distribuicao uniforme")
+plot(y ~ x, xlab="Valores de uma distribuicao normal", 
+  ylab="Valores de uma distribuicao uniforme")
 # 3
 dev.off()
 ```
@@ -63,7 +65,8 @@ Como? Basta configurar a largura no comando `pdf()`. Por exemplo, no código aba
 
 ```
 pdf("grafico entre x e y.pdf", width=4.33071)
-plot(y ~ x, xlab="Valores de uma distribuicao normal", ylab="Valores de uma distribuicao uniforme")
+plot(y ~ x, xlab="Valores de uma distribuicao normal", 
+  ylab="Valores de uma distribuicao uniforme")
 dev.off()
 ```
 
