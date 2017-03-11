@@ -99,7 +99,7 @@ plot(y ~ x, xlab="Distribuicao normal", ylab="Distribuicao uniforme")
 # dev.off()  # usar para salvar diretamente
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png)
+![Figura 2](Figures/graficos-fig2.png)
 
 Nada mal. Mas alguns pontos podem ser melhorados. Por exemplo, dimunuir o espaço entre gráficos para utilizar melhor o espaço (adicionando o argumento `mar=c(5, 4, 2, 1)` na função `par(...)`), que irá diminuir especialmente o espaço acima de cada gráfico (terceiro valor numérico). Outra melhoria, pode ser adicionar o comando `mtext()` após cada gráfico para configurar uma letra indicativa em cada gráfico, que pode ser associada na legenda da figura para explicar o que é cada gráfico. Vamos ao código:
 
@@ -122,7 +122,7 @@ mtext("D) Painel 4", side=3, line=0.5, adj=0, font=2)
 # dev.off()  # usar para salvar diretamente
 ```
 
-![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5-1.png)
+![Figura 3](Figures/graficos-fig3.png)
 
 Teste a saída em PDF. Se algum texto ficar muito pequeno, você pode configurar tamanhos maiores aumentando o valor padrão do argumento `cex` da função `par()`. O valor padrão é 1. Valores maiores que 1 aumentam o tamanho de partes do seu texto. Valores menores que 1, diminuem. Teste a criação do PDF abaixo e veja o resultado.
 
@@ -213,7 +213,7 @@ mtext("D) Gráfico 4", side=3, line=0.5, adj=0, font=2, cex=0.7)
 dev.off()
 ```
 
-## Finalizando fora do R
+## Usando um editor de imagens
 Para finalizar, nem todas as revistas aceitarão sua figura em PDF. O Word também não permitirá que você importe o PDF no seu arquivo. Mas mesmo assim, garanto que o esforço para gerar um PDF com a sua figura prontinha valeu a pena. Agora basta escolher um programa que manipule imagens para converter para o tipo de arquivo desejado. Eu já usei Corel Draw e Photoshop. Ambos abrem PDFs e o Corel Draw permite inclusive a edição dos mínimos detalhes. Mas como a melhor opção é um *software* livre, recomendo o GIMP (<https://www.gimp.org/>). Vou comentar como converter um PDF em JPEG com esse programa.
 
 Abra o GIMP e vá em *Arquivo > Abrir...* Selecione algum PDF (criado com o R ou outro qualquer). Como PDFs podem conter várias páginas, o GIMP abre uma tela onde temos que escolher a página que queremos abrir. No caso de um gráfico gerado no R com comandos semelhantes aos utilizados aqui, só uma página foi gerada e não é necessário se preocupar muito com isso. É importante ajustar as outras opções, especialmente a resolução. Faça testes para ver a mudança de qualidade. Use, por exemplo, os valores 72 (resolução de celular ou máquina fotográfica), 150, e 300 dpi. Como começamos com um arquivo PDF, a diferença pode ser pequena, pois o PDF preservou o máximo da qualidade de nossas figuras. Mas ter essa opção pode ser bem importante para balancear a qualidade e o tamanho em disco de um arquivo JPEG. Para prosseguir, com o exemplo, **insira o valor 200 para a resolução** (= 200 dpi) e clique em *Importar*. Por algum motivo, os círculos do gráfico em PDF são trocados por um retângulo. Espero que isso seja resolvido pelos desenvolvedores do GIMP. Por enquanto, uma solução é trocar o tipo de símbolo ao gerar nossos gráficos usando o argumento `pch=0` (símbolo é um quadrado). Evite usar todos os símbolos circulares (pch=1, 16, 19, 20, e 21). No máximo, se muito necessário, use `pch="o"` ("o" minúsculo). Segue um script final atualizado para resolver o problema que surge no GIMP. 
@@ -240,6 +240,12 @@ dev.off()
 Com o gráfico importado no GIMP, basta ir em *Arquivo > Exportar como ...* e escolher um dos diversos formatos de imagens. Vamos escolher JPEG para o exemplo. Escolha um nome e garanta que ele contém ".jpg" como extensão. Aparecerá uma tela com configurações adicionais. Apenas garanta que a qualidade está como 100% e clique em *Exportar*. 
 
 Compare abaixo o resultado como gerado em JPEG e 100% de qualidade pelo R e via salvamento em PDF e importação/exportação em JPEG pelo GIMP.
+
+### R
+![Figura 4](Figures/graficos-fig4.png)
+
+### R + GIMP
+![Figura 5](Figures/graficos-fig5.png)
 
 
 ## Conclusão
