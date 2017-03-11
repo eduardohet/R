@@ -75,7 +75,8 @@ Veja que a função `pdf` aceita apenas valores de largura (*width*) ou altura (
 
 ```
 pdf("grafico entre x e y.pdf", width=4.33071, height=4.33071)
-plot(y ~ x, xlab="Valores de uma distribuicao normal", ylab="Valores de uma distribuicao uniforme")
+plot(y ~ x, xlab="Valores de uma distribuicao normal", 
+  ylab="Valores de uma distribuicao uniforme")
 dev.off()
 ```
 
